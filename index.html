@@ -1,70 +1,871 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
-    <style>
-        /* Сброс отступов и настройка на весь экран */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hoiz — визитка</title>
+<style>
+  @import url('https://fonts.cdnfonts.com/css/ms-sans-serif');
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-        }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
+  body {
+    background-color: #008080;
+    font-family: 'MS Sans Serif', 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    color: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+  }
 
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            color: #1a1a2e;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-        }
+  /* ===== DESKTOP ICONS ===== */
+  .desktop-icons {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 0;
+  }
 
-        /* Лёгкий акцент при наведении */
-        h1:hover {
-            color: #16213e;
-            transform: scale(1.02);
-            transition: all 0.3s ease;
-        }
+  .desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: default;
+    padding: 4px;
+    width: 70px;
+    text-align: center;
+  }
 
-        /* Заголовок сайта — в теге <title> уже задан,
-           но можно продублировать как подпись */
-        .site-header {
-            font-size: 1rem;
-            color: #888;
-            margin-top: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            border-top: 1px solid #ddd;
-            padding-top: 1.5rem;
-            display: inline-block;
-        }
-    </style>
+  .desktop-icon:hover {
+    background: rgba(0, 0, 128, 0.3);
+  }
+
+  .desktop-icon span.icon-img {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .desktop-icon span.icon-label {
+    color: #fff;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px #000;
+    word-wrap: break-word;
+  }
+
+  /* ===== WINDOW ===== */
+  .window {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    box-shadow: 1px 1px 0 #000, inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #dfdfdf;
+    width: 100%;
+    max-width: 620px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    letter-spacing: 0.5px;
+  }
+
+  .title-bar-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .title-bar-text .win-icon {
+    font-size: 14px;
+  }
+
+  .title-bar-controls {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .title-bar-controls button {
+    width: 16px;
+    height: 14px;
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    font-size: 9px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    color: #000;
+  }
+
+  .title-bar-controls button:active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+  }
+
+  /* ===== MENU BAR ===== */
+  .menu-bar {
+    background: #c0c0c0;
+    padding: 2px 0;
+    border-bottom: 1px solid #808080;
+    display: flex;
+    gap: 0;
+  }
+
+  .menu-bar span {
+    padding: 2px 8px;
+    cursor: default;
+    font-size: 12px;
+  }
+
+  .menu-bar span:hover {
+    background: #000080;
+    color: #fff;
+  }
+
+  .menu-bar span u {
+    text-decoration: underline;
+  }
+
+  /* ===== WINDOW BODY ===== */
+  .window-body {
+    padding: 10px;
+  }
+
+  /* ===== TABS ===== */
+  .tabs-container {
+    margin-top: 4px;
+  }
+
+  .tab-list {
+    display: flex;
+    gap: 0;
+    padding-left: 4px;
+    position: relative;
+    bottom: -2px;
+    z-index: 2;
+  }
+
+  .tab-btn {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 4px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    color: #000;
+    position: relative;
+    margin-right: 1px;
+    outline: none;
+    border-radius: 0;
+  }
+
+  .tab-btn:hover {
+    background: #d0d0d0;
+  }
+
+  .tab-btn.active {
+    background: #c0c0c0;
+    border-bottom: 2px solid #c0c0c0;
+    z-index: 3;
+    padding-bottom: 6px;
+    margin-bottom: -2px;
+    font-weight: bold;
+  }
+
+  .tab-content-wrapper {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* ===== CONTENT STYLES ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #808080;
+  }
+
+  .section-header .sec-icon {
+    font-size: 22px;
+  }
+
+  .section-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000080;
+  }
+
+  .description {
+    background: #fff;
+    border: 2px inset #808080;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #000;
+  }
+
+  .sub-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+    margin: 8px 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 6px 0;
+  }
+
+  .item-list li {
+    padding: 3px 0 3px 18px;
+    position: relative;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .item-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: #000080;
+    font-size: 10px;
+    top: 4px;
+  }
+
+  .skills-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 6px 0 10px 0;
+  }
+
+  .skill-tag {
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .win95-btn {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 4px 16px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    color: #000;
+    outline: none;
+    margin: 4px 4px 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .win95-btn:hover {
+    background: #b0b0b0;
+  }
+
+  .win95-btn:active {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding: 5px 15px 3px 17px;
+  }
+
+  .win95-btn:focus {
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+  }
+
+  .btn-row {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #808080;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* ===== STATUS BAR ===== */
+  .status-bar {
+    background: #c0c0c0;
+    border-top: 1px solid #808080;
+    padding: 4px 6px;
+    display: flex;
+    gap: 2px;
+  }
+
+  .status-bar-field {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    padding: 2px 6px;
+    font-size: 11px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .status-bar-field a {
+    color: #000080;
+    text-decoration: none;
+  }
+
+  .status-bar-field a:hover {
+    text-decoration: underline;
+    color: #0000ff;
+  }
+
+  /* ===== TASKBAR ===== */
+  .taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    gap: 4px;
+    z-index: 100;
+  }
+
+  .start-btn {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 2px 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #000;
+    height: 24px;
+  }
+
+  .start-btn:active {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+  }
+
+  .start-btn .win-logo {
+    font-size: 16px;
+  }
+
+  .taskbar-divider {
+    width: 2px;
+    height: 22px;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #fff;
+    margin: 0 2px;
+  }
+
+  .taskbar-window-btn {
+    background: #c0c0c0;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    padding: 2px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 24px;
+    min-width: 120px;
+    font-weight: bold;
+  }
+
+  .taskbar-tray {
+    margin-left: auto;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    padding: 2px 8px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    color: #b0d4d4;
+    font-size: 10px;
+    margin-top: 40px;
+    text-align: center;
+    padding-bottom: 40px;
+    z-index: 1;
+    text-shadow: 1px 1px 0 #005050;
+  }
+
+  /* ===== GROUP BOX ===== */
+  .group-box {
+    border: 2px groove #c0c0c0;
+    padding: 10px 10px 8px 10px;
+    margin: 8px 0;
+    position: relative;
+  }
+
+  .group-box-label {
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    background: #c0c0c0;
+    padding: 0 4px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+  }
+
+  /* ===== SEPARATOR ===== */
+  .separator {
+    height: 2px;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #fff;
+    margin: 8px 0;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    body {
+      padding: 10px 6px 50px 6px;
+      justify-content: flex-start;
+      padding-top: 10px;
+    }
+
+    .desktop-icons {
+      display: none;
+    }
+
+    .window {
+      max-width: 100%;
+    }
+
+    .tab-list {
+      flex-wrap: wrap;
+      gap: 2px;
+    }
+
+    .tab-btn {
+      padding: 3px 8px;
+      font-size: 11px;
+    }
+
+    .tab-content-wrapper {
+      padding: 10px;
+    }
+
+    .status-bar {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .taskbar-window-btn {
+      min-width: 80px;
+      font-size: 10px;
+    }
+
+    .btn-row {
+      flex-direction: column;
+    }
+
+    .win95-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* ===== SCROLLBAR WIN95 STYLE ===== */
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #c0c0c0;
+    border-left: 1px solid #808080;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+  }
+
+  ::-webkit-scrollbar-button {
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    height: 16px;
+  }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Основная надпись по центру -->
-        <h1>Hello World</h1>
-
-        <!-- Дополнительная подпись с названием сайта (необязательно) -->
-        <div class="site-header">Мой первый сайт</div>
+  <!-- Desktop Icons -->
+  <div class="desktop-icons">
+    <div class="desktop-icon">
+      <span class="icon-img">💻</span>
+      <span class="icon-label">Мой компьютер</span>
     </div>
+    <div class="desktop-icon">
+      <span class="icon-img">📁</span>
+      <span class="icon-label">Мои документы</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="icon-img">🌐</span>
+      <span class="icon-label">Сеть</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="icon-img">🗑️</span>
+      <span class="icon-label">Корзина</span>
+    </div>
+  </div>
+
+  <!-- Main Window -->
+  <div class="window" id="mainWindow">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="title-bar-text">
+        <span class="win-icon">📟</span>
+        <span>hoiz — визитка</span>
+      </div>
+      <div class="title-bar-controls">
+        <button title="Свернуть" onclick="alert('Свернуть? А вот и нет!')">_</button>
+        <button title="Развернуть" onclick="alert('Развернуть? Не дождётесь!')">□</button>
+        <button title="Закрыть" onclick="alert('Закрыть? Ну уж нет!')">✕</button>
+      </div>
+    </div>
+
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+      <span><u>Ф</u>айл</span>
+      <span><u>П</u>равка</span>
+      <span><u>В</u>ид</span>
+      <span><u>С</u>правка</span>
+    </div>
+
+    <!-- Window Body -->
+    <div class="window-body">
+      <div class="tabs-container">
+        <!-- Tabs -->
+        <div class="tab-list">
+          <button class="tab-btn active" data-tab="radio" onclick="switchTab('radio', this)">📻 Радиолюбитель</button>
+          <button class="tab-btn" data-tab="security" onclick="switchTab('security', this)">🛡️ Информ. безопасность</button>
+          <button class="tab-btn" data-tab="esport" onclick="switchTab('esport', this)">🎮 Киберспорт (CS2)</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-wrapper">
+
+          <!-- TAB 1: Радиолюбитель -->
+          <div class="tab-panel active" id="tab-radio">
+            <div class="section-header">
+              <span class="sec-icon">📻</span>
+              <h2>Радиолюбитель</h2>
+            </div>
+
+            <div class="description">
+              Занимаюсь радиосвязью с 2018 года. Позывной — <b>R3HOIZ</b>. Участник соревнований по УКВ и цифровым видам модуляции. Работаю на диапазонах 144/430 МГц, увлекаюсь QRP-связью и спутниковой радиосвязью через AMSAT-OSCAR.
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">📂 Проекты</span>
+              <ul class="item-list">
+                <li>Сборка трансивера на Arduino с DSP-фильтром</li>
+                <li>Антенна «волновой канал» для 144 МГц (6 элементов)</li>
+                <li>Программа для декодирования FT8 на Python</li>
+                <li>SDR-приёмник на базе RTL-SDR + самописный софт</li>
+              </ul>
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">🏆 Достижения</span>
+              <ul class="item-list">
+                <li>Диплом «За 100 связей с Европой» (2023)</li>
+                <li>3-е место в региональных соревнованиях по радиоспорту</li>
+                <li>Радиолюбительская лицензия 3-й категории</li>
+              </ul>
+            </div>
+
+            <div class="sub-title">🔧 Навыки и инструменты:</div>
+            <div class="skills-group">
+              <span class="skill-tag">Arduino</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">FT8 / WSPR</span>
+              <span class="skill-tag">SDR</span>
+              <span class="skill-tag">KiCad</span>
+              <span class="skill-tag">Пайка SMD</span>
+              <span class="skill-tag">HF/VHF/UHF</span>
+              <span class="skill-tag">Antenna Modeling</span>
+            </div>
+
+            <div class="btn-row">
+              <button class="win95-btn" onclick="alert('📻 QRZ.com: R3HOIZ\nСвяжитесь через логbook!')">📡 Мой позывной</button>
+              <button class="win95-btn" onclick="alert('📂 Проекты на GitHub:\n→ ft8-decoder\n→ arduino-trx')">💾 Мои проекты</button>
+              <button class="win95-btn" onclick="alert('📋 Лог QSO доступен по запросу.\n73!')">📋 QSO Log</button>
+            </div>
+          </div>
+
+          <!-- TAB 2: Информационная безопасность -->
+          <div class="tab-panel" id="tab-security">
+            <div class="section-header">
+              <span class="sec-icon">🛡️</span>
+              <h2>Информационная безопасность</h2>
+            </div>
+
+            <div class="description">
+              Изучаю пентест и обратную разработку. Участвую в CTF-соревнованиях в категориях pwn, reverse engineering и web. Интересуюсь malware analysis, разработкой эксплойтов и исследованием уязвимостей нулевого дня.
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">📂 Проекты</span>
+              <ul class="item-list">
+                <li>Разработка утилиты для сканирования открытых портов на Go</li>
+                <li>Анализ вредоносного ПО в изолированной песочнице (Cuckoo)</li>
+                <li>Написание эксплойта для учебной уязвимости buffer overflow</li>
+                <li>Собственный фреймворк для автоматизации CTF-задач</li>
+              </ul>
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">🏆 Достижения</span>
+              <ul class="item-list">
+                <li>Финалист CTF RuCTF 2024</li>
+                <li>Сертификат eJPT (eLearnSecurity Junior Penetration Tester)</li>
+                <li>Нашёл CVE-2024-XXXX в популярном WordPress-плагине</li>
+                <li>Топ-50 на HackTheBox (Pro Hacker rank)</li>
+              </ul>
+            </div>
+
+            <div class="sub-title">🔧 Навыки и инструменты:</div>
+            <div class="skills-group">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">C / C++</span>
+              <span class="skill-tag">Go</span>
+              <span class="skill-tag">Ghidra</span>
+              <span class="skill-tag">IDA Pro</span>
+              <span class="skill-tag">Burp Suite</span>
+              <span class="skill-tag">Wireshark</span>
+              <span class="skill-tag">Metasploit</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">Docker</span>
+            </div>
+
+            <div class="btn-row">
+              <button class="win95-btn" onclick="alert('🔗 GitHub: github.com/hoiz\n→ port-scanner\n→ ctf-tools\n→ cve-reports')">💾 GitHub</button>
+              <button class="win95-btn" onclick="alert('🏅 Сертификаты:\n→ eJPT (2023)\n→ CompTIA Security+ (2022)')">📜 Сертификаты</button>
+              <button class="win95-btn" onclick="alert('📝 Write-up\'ы CTF-задач:\n→ RuCTF 2024\n→ HackTheBox\n→ PicoCTF')">📝 Write-ups</button>
+            </div>
+          </div>
+
+          <!-- TAB 3: Киберспорт -->
+          <div class="tab-panel" id="tab-esport">
+            <div class="section-header">
+              <span class="sec-icon">🎮</span>
+              <h2>Киберспорт (CS2)</h2>
+            </div>
+
+            <div class="description">
+              Игрок в Counter-Strike 2, роль — капитан / ингейм-лидер. Уровень Faceit 8, ELO ~2400. Играю с 2013 года (начинал с CS:GO). Специализируюсь на тактическом лидерстве и чтении игры. Активно тренируюсь 4-5 раз в неделю.
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">📂 Проекты</span>
+              <ul class="item-list">
+                <li>Создание тактической карты смоков и раскладок для команды</li>
+                <li>Анализ демок с использованием Leetify и CSStats</li>
+                <li>Организация любительского турнира на 16 команд</li>
+                <li>Тренировочный сервер с кастомными раскладками</li>
+              </ul>
+            </div>
+
+            <div class="group-box">
+              <span class="group-box-label">🏆 Достижения</span>
+              <ul class="item-list">
+                <li>Победитель городского LAN-турнира «CyberCity Cup» (2024)</li>
+                <li>Топ-1000 в региональном рейтинге Faceit</li>
+                <li>Призёр открытых квалификаций на ESEA Open</li>
+                <li>MVP регионального онлайн-кубка (3 раза)</li>
+              </ul>
+            </div>
+
+            <div class="sub-title">🔧 Навыки и статистика:</div>
+            <div class="skills-group">
+              <span class="skill-tag">AWP / Rifle</span>
+              <span class="skill-tag">IGL</span>
+              <span class="skill-tag">Faceit Lvl 10</span>
+              <span class="skill-tag">HS%: 54</span>
+              <span class="skill-tag">K/D: 1.3</span>
+              <span class="skill-tag">Demo Analysis</span>
+              <span class="skill-tag">Strats</span>
+              <span class="skill-tag">Comms</span>
+            </div>
+
+            <div class="btn-row">
+              <button class="win95-btn" onclick="alert('🎮 Faceit: hoiz_cs\nУровень: 10 | ELO: 2400\nK/D: 1.3 | HS%: 54')">📊 Моя статистика</button>
+              <button class="win95-btn" onclick="alert('🔗 Steam: steamcommunity.com/id/hoiz\nДобавляйтесь в друзья!')">🎯 Steam профиль</button>
+              <button class="win95-btn" onclick="alert('📹 Лучшие клатчи и хайлайты:\n→ Ace on Mirage (1v5)\n→ Clutch on Inferno (1v3)\n→ AWP montage 2025')">📹 Хайлайты</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-bar-field">
+        📡 <a href="#" onclick="alert('Telegram: @hoiz'); return false;">Telegram: @afkhoiz1668</a>
+      </div>
+      <div class="status-bar-field">
+        💾 <a href="#" onclick="alert('GitHub: github.com/hoiz'); return false;">GitHub: https://github.com/hoiz1668</a>
+      </div>
+      <div class="status-bar-field">
+        ✉️ <a href="#" onclick="alert('Email: hoiz@example.net'); return false;">Email: afkhoiz1668@gmail.com</a>
+      </div>
+      <div class="status-bar-field" style="flex: 0.5; justify-content: center;">
+        🟢 Online
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2026 hoiz | 
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <button class="start-btn" onclick="alert('🪟 Windows 95\n\nЭто сайт-визитка пользователя hoiz.\nДобро пожаловать!')">
+      <span class="win-logo">🪟</span>
+      <span>Пуск</span>
+    </button>
+    <div class="taskbar-divider"></div>
+    <div class="taskbar-window-btn">
+      📟 hoiz — визитка
+    </div>
+    <div class="taskbar-tray">
+      <span>🔊</span>
+      <span id="clock">12:00</span>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    function switchTab(tabName, btn) {
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(function(panel) {
+        panel.classList.remove('active');
+      });
+      // Deactivate all tabs
+      document.querySelectorAll('.tab-btn').forEach(function(tab) {
+        tab.classList.remove('active');
+      });
+      // Show selected panel
+      document.getElementById('tab-' + tabName).classList.add('active');
+      // Activate selected tab
+      btn.classList.add('active');
+    }
+
+    // Clock
+    function updateClock() {
+      var now = new Date();
+      var h = now.getHours().toString().padStart(2, '0');
+      var m = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 10000);
+  </script>
 
 </body>
 </html>
+
