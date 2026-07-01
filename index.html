@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <style>
+        /* Сброс отступов и настройка на весь экран */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Лёгкий акцент при наведении */
+        h1:hover {
+            color: #16213e;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+
+        /* Заголовок сайта — в теге <title> уже задан,
+           но можно продублировать как подпись */
+        .site-header {
+            font-size: 1rem;
+            color: #888;
+            margin-top: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-top: 1px solid #ddd;
+            padding-top: 1.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Основная надпись по центру -->
+        <h1>Hello World</h1>
+
+        <!-- Дополнительная подпись с названием сайта (необязательно) -->
+        <div class="site-header">Мой первый сайт</div>
+    </div>
+
+</body>
+</html>
