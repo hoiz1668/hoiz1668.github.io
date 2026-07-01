@@ -7,6 +7,51 @@
 <style>
   @import url('https://fonts.cdnfonts.com/css/ms-sans-serif');
 
+  /* === CSS переменные для тем === */
+  :root {
+    --bg-desktop: #008080;
+    --bg-window: #c0c0c0;
+    --bg-title: linear-gradient(90deg, #000080, #1084d0);
+    --text-color: #000;
+    --border-light: #fff;
+    --border-dark: #808080;
+    --shadow-color: #dfdfdf;
+    --link-color: #000080;
+    --link-hover: #0000ff;
+    --footer-color: #b0d4d4;
+    --footer-shadow: #005050;
+  }
+
+  /* Тёмная тема */
+  body.dark {
+    --bg-desktop: #1a1a1a;
+    --bg-window: #3a3a3a;
+    --bg-title: linear-gradient(90deg, #2a2a5a, #3a5a8a);
+    --text-color: #e0e0e0;
+    --border-light: #555;
+    --border-dark: #222;
+    --shadow-color: #2a2a2a;
+    --link-color: #8ab4f8;
+    --link-hover: #aaccff;
+    --footer-color: #888;
+    --footer-shadow: #000;
+  }
+
+  /* Высокая контрастность */
+  body.high-contrast {
+    --bg-desktop: #000;
+    --bg-window: #fff;
+    --bg-title: #000;
+    --text-color: #000;
+    --border-light: #fff;
+    --border-dark: #000;
+    --shadow-color: #ccc;
+    --link-color: #0000ff;
+    --link-hover: #ff00ff;
+    --footer-color: #fff;
+    --footer-shadow: #000;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -14,10 +59,10 @@
   }
 
   body {
-    background-color: #008080;
+    background-color: var(--bg-desktop);
     font-family: 'MS Sans Serif', 'Segoe UI', Arial, sans-serif;
     font-size: 12px;
-    color: #000;
+    color: var(--text-color);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -26,6 +71,7 @@
     padding: 20px;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
+    transition: background 0.3s, color 0.3s;
   }
 
   /* ===== DESKTOP ICONS ===== */
@@ -44,14 +90,16 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    cursor: default;
+    cursor: pointer;
     padding: 4px;
     width: 70px;
     text-align: center;
+    transition: background 0.1s;
   }
 
   .desktop-icon:hover {
     background: rgba(0, 0, 128, 0.3);
+    outline: 1px dotted var(--border-light);
   }
 
   .desktop-icon span.icon-img {
@@ -60,7 +108,7 @@
   }
 
   .desktop-icon span.icon-label {
-    color: #fff;
+    color: var(--border-light);
     font-size: 11px;
     text-shadow: 1px 1px 1px #000;
     word-wrap: break-word;
@@ -68,20 +116,21 @@
 
   /* ===== WINDOW ===== */
   .window {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
-    box-shadow: 1px 1px 0 #000, inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #dfdfdf;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+    box-shadow: 1px 1px 0 #000, inset -1px -1px 0 var(--shadow-color), inset 1px 1px 0 var(--shadow-color);
     width: 100%;
     max-width: 620px;
     position: relative;
     z-index: 10;
+    transition: background 0.3s, border-color 0.3s;
   }
 
   .title-bar {
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: var(--bg-title);
     color: #fff;
     font-weight: bold;
     font-size: 12px;
@@ -91,6 +140,12 @@
     justify-content: space-between;
     user-select: none;
     letter-spacing: 0.5px;
+    cursor: grab;
+    transition: background 0.3s;
+  }
+
+  .title-bar:active {
+    cursor: grabbing;
   }
 
   .title-bar-text {
@@ -114,11 +169,11 @@
   .title-bar-controls button {
     width: 16px;
     height: 14px;
-    background: #c0c0c0;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #808080;
-    border-bottom: 1px solid #808080;
+    background: var(--bg-window);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
     font-size: 9px;
     line-height: 1;
     display: flex;
@@ -127,29 +182,33 @@
     cursor: pointer;
     padding: 0;
     font-family: inherit;
-    color: #000;
+    color: var(--text-color);
+    transition: background 0.2s;
   }
 
   .title-bar-controls button:active {
-    border-top: 1px solid #808080;
-    border-left: 1px solid #808080;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid var(--border-dark);
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
   }
 
   /* ===== MENU BAR ===== */
   .menu-bar {
-    background: #c0c0c0;
+    background: var(--bg-window);
     padding: 2px 0;
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid var(--border-dark);
     display: flex;
     gap: 0;
+    transition: background 0.3s;
   }
 
   .menu-bar span {
     padding: 2px 8px;
     cursor: default;
     font-size: 12px;
+    color: var(--text-color);
+    transition: background 0.2s, color 0.2s;
   }
 
   .menu-bar span:hover {
@@ -159,6 +218,40 @@
 
   .menu-bar span u {
     text-decoration: underline;
+  }
+
+  /* Выпадающее меню (простая имитация) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background: var(--bg-window);
+    border: 2px solid var(--border-light);
+    border-right-color: var(--border-dark);
+    border-bottom-color: var(--border-dark);
+    z-index: 20;
+    min-width: 150px;
+    padding: 2px 0;
+  }
+
+  .dropdown-content span {
+    display: block;
+    padding: 3px 12px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 12px;
+  }
+
+  .dropdown-content span:hover {
+    background: #000080;
+    color: #fff;
+  }
+
+  .menu-item {
+    position: relative;
+  }
+
+  .menu-item:hover .dropdown-content {
+    display: block;
   }
 
   /* ===== WINDOW BODY ===== */
@@ -181,29 +274,38 @@
   }
 
   .tab-btn {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
     padding: 4px 14px;
     font-family: inherit;
     font-size: 12px;
     cursor: pointer;
-    color: #000;
+    color: var(--text-color);
     position: relative;
     margin-right: 1px;
     outline: none;
     border-radius: 0;
+    transition: all 0.05s ease, background 0.2s;
   }
 
   .tab-btn:hover {
     background: #d0d0d0;
   }
 
+  .tab-btn:active {
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    transform: translate(1px, 1px);
+  }
+
   .tab-btn.active {
-    background: #c0c0c0;
-    border-bottom: 2px solid #c0c0c0;
+    background: var(--bg-window);
+    border-bottom: 2px solid var(--bg-window);
     z-index: 3;
     padding-bottom: 6px;
     margin-bottom: -2px;
@@ -211,22 +313,29 @@
   }
 
   .tab-content-wrapper {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
     padding: 14px;
     position: relative;
     z-index: 1;
+    transition: background 0.3s;
   }
 
   .tab-panel {
     display: none;
+    animation: fadeIn 0.2s ease;
   }
 
   .tab-panel.active {
     display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* ===== CONTENT STYLES ===== */
@@ -236,7 +345,7 @@
     gap: 8px;
     margin-bottom: 10px;
     padding-bottom: 6px;
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid var(--border-dark);
   }
 
   .section-header .sec-icon {
@@ -246,12 +355,12 @@
   .section-header h2 {
     font-size: 14px;
     font-weight: bold;
-    color: #000080;
+    color: var(--link-color);
   }
 
   .description {
     background: #fff;
-    border: 2px inset #808080;
+    border: 2px inset var(--border-dark);
     padding: 8px 10px;
     margin-bottom: 10px;
     font-size: 12px;
@@ -262,7 +371,7 @@
   .sub-title {
     font-size: 12px;
     font-weight: bold;
-    color: #000;
+    color: var(--text-color);
     margin: 8px 0 4px 0;
     display: flex;
     align-items: center;
@@ -280,13 +389,14 @@
     position: relative;
     font-size: 12px;
     line-height: 1.5;
+    color: var(--text-color);
   }
 
   .item-list li::before {
     content: '▸';
     position: absolute;
     left: 4px;
-    color: #000080;
+    color: var(--link-color);
     font-size: 10px;
     top: 4px;
   }
@@ -299,33 +409,35 @@
   }
 
   .skill-tag {
-    background: #c0c0c0;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #808080;
-    border-bottom: 1px solid #808080;
+    background: var(--bg-window);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
     padding: 2px 8px;
     font-size: 11px;
-    color: #000;
+    color: var(--text-color);
     white-space: nowrap;
+    transition: background 0.3s;
   }
 
   .win95-btn {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
     padding: 4px 16px;
     font-family: inherit;
     font-size: 12px;
     cursor: pointer;
-    color: #000;
+    color: var(--text-color);
     outline: none;
     margin: 4px 4px 4px 0;
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    transition: background 0.15s, border-color 0.15s;
   }
 
   .win95-btn:hover {
@@ -333,10 +445,10 @@
   }
 
   .win95-btn:active {
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
     padding: 5px 15px 3px 17px;
   }
 
@@ -348,42 +460,82 @@
   .btn-row {
     margin-top: 10px;
     padding-top: 8px;
-    border-top: 1px solid #808080;
+    border-top: 1px solid var(--border-dark);
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
   }
 
+  /* ===== FORM ===== */
+  .contact-form {
+    background: #fff;
+    border: 2px inset var(--border-dark);
+    padding: 12px;
+    margin-top: 6px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    font-size: 12px;
+    color: #000;
+    margin-bottom: 2px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    border: 2px inset var(--border-dark);
+    background: #fff;
+    color: #000;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
   /* ===== STATUS BAR ===== */
   .status-bar {
-    background: #c0c0c0;
-    border-top: 1px solid #808080;
+    background: var(--bg-window);
+    border-top: 1px solid var(--border-dark);
     padding: 4px 6px;
     display: flex;
+    flex-wrap: wrap;
     gap: 2px;
+    transition: background 0.3s;
   }
 
   .status-bar-field {
-    border-top: 1px solid #808080;
-    border-left: 1px solid #808080;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid var(--border-dark);
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
     padding: 2px 6px;
     font-size: 11px;
     flex: 1;
     display: flex;
     align-items: center;
     gap: 4px;
+    min-width: 80px;
+    color: var(--text-color);
   }
 
   .status-bar-field a {
-    color: #000080;
+    color: var(--link-color);
     text-decoration: none;
   }
 
   .status-bar-field a:hover {
     text-decoration: underline;
-    color: #0000ff;
+    color: var(--link-hover);
   }
 
   /* ===== TASKBAR ===== */
@@ -393,21 +545,22 @@
     left: 0;
     right: 0;
     height: 32px;
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
     display: flex;
     align-items: center;
     padding: 2px 4px;
     gap: 4px;
     z-index: 100;
+    transition: background 0.3s;
   }
 
   .start-btn {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
     padding: 2px 8px;
     font-family: inherit;
     font-size: 12px;
@@ -416,15 +569,16 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    color: #000;
+    color: var(--text-color);
     height: 24px;
+    transition: background 0.2s;
   }
 
   .start-btn:active {
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
+    border-top: 2px solid var(--border-dark);
+    border-left: 2px solid var(--border-dark);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
   }
 
   .start-btn .win-logo {
@@ -434,17 +588,17 @@
   .taskbar-divider {
     width: 2px;
     height: 22px;
-    border-left: 1px solid #808080;
-    border-right: 1px solid #fff;
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-light);
     margin: 0 2px;
   }
 
   .taskbar-window-btn {
-    background: #c0c0c0;
-    border-top: 1px solid #808080;
-    border-left: 1px solid #808080;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    background: var(--bg-window);
+    border-top: 1px solid var(--border-dark);
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
     padding: 2px 10px;
     font-family: inherit;
     font-size: 11px;
@@ -455,36 +609,39 @@
     height: 24px;
     min-width: 120px;
     font-weight: bold;
+    color: var(--text-color);
   }
 
   .taskbar-tray {
     margin-left: auto;
-    border-top: 1px solid #808080;
-    border-left: 1px solid #808080;
-    border-right: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid var(--border-dark);
+    border-left: 1px solid var(--border-dark);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
     padding: 2px 8px;
     font-size: 11px;
     display: flex;
     align-items: center;
     gap: 6px;
     height: 24px;
+    color: var(--text-color);
   }
 
   /* ===== FOOTER ===== */
   .footer {
-    color: #b0d4d4;
+    color: var(--footer-color);
     font-size: 10px;
     margin-top: 40px;
     text-align: center;
     padding-bottom: 40px;
     z-index: 1;
-    text-shadow: 1px 1px 0 #005050;
+    text-shadow: 1px 1px 0 var(--footer-shadow);
+    transition: color 0.3s, text-shadow 0.3s;
   }
 
   /* ===== GROUP BOX ===== */
   .group-box {
-    border: 2px groove #c0c0c0;
+    border: 2px groove var(--border-dark);
     padding: 10px 10px 8px 10px;
     margin: 8px 0;
     position: relative;
@@ -494,25 +651,49 @@
     position: absolute;
     top: -8px;
     left: 10px;
-    background: #c0c0c0;
+    background: var(--bg-window);
     padding: 0 4px;
     font-size: 11px;
     font-weight: bold;
-    color: #000;
+    color: var(--text-color);
+    transition: background 0.3s;
   }
 
   /* ===== SEPARATOR ===== */
   .separator {
     height: 2px;
-    border-top: 1px solid #808080;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-light);
     margin: 8px 0;
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    body {
+      background: #fff;
+      padding: 20px;
+      justify-content: flex-start;
+    }
+    .desktop-icons, .taskbar, .footer {
+      display: none !important;
+    }
+    .window {
+      max-width: 100%;
+      border: 1px solid #000;
+      box-shadow: none;
+    }
+    .tab-btn {
+      border: 1px solid #000;
+    }
+    .win95-btn {
+      border: 1px solid #000;
+    }
   }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 600px) {
     body {
-      padding: 10px 6px 50px 6px;
+      padding: 10px 6px 60px 6px;
       justify-content: flex-start;
       padding-top: 10px;
     }
@@ -565,24 +746,24 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #c0c0c0;
-    border-left: 1px solid #808080;
+    background: var(--bg-window);
+    border-left: 1px solid var(--border-dark);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    background: var(--bg-window);
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
   }
 
   ::-webkit-scrollbar-button {
-    background: #c0c0c0;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #808080;
-    border-bottom: 1px solid #808080;
+    background: var(--bg-window);
+    border-top: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
     height: 16px;
   }
 </style>
@@ -591,28 +772,28 @@
 
   <!-- Desktop Icons -->
   <div class="desktop-icons">
-    <div class="desktop-icon">
+    <div class="desktop-icon" onclick="switchTabByDesktop('radio')" title="Перейти к радио">
       <span class="icon-img">💻</span>
       <span class="icon-label">Мой компьютер</span>
     </div>
-    <div class="desktop-icon">
+    <div class="desktop-icon" onclick="switchTabByDesktop('security')" title="Перейти к безопасности">
       <span class="icon-img">📁</span>
       <span class="icon-label">Мои документы</span>
     </div>
-    <div class="desktop-icon">
+    <div class="desktop-icon" onclick="switchTabByDesktop('esport')" title="Перейти к киберспорту">
       <span class="icon-img">🌐</span>
       <span class="icon-label">Сеть</span>
     </div>
-    <div class="desktop-icon">
-      <span class="icon-img">🗑️</span>
-      <span class="icon-label">Корзина</span>
+    <div class="desktop-icon" onclick="switchTabByDesktop('contacts')" title="Перейти к контактам">
+      <span class="icon-img">✉️</span>
+      <span class="icon-label">Почта</span>
     </div>
   </div>
 
   <!-- Main Window -->
   <div class="window" id="mainWindow">
     <!-- Title Bar -->
-    <div class="title-bar">
+    <div class="title-bar" id="titleBar">
       <div class="title-bar-text">
         <span class="win-icon">📟</span>
         <span>hoiz — визитка</span>
@@ -624,11 +805,18 @@
       </div>
     </div>
 
-    <!-- Menu Bar -->
+    <!-- Menu Bar с выпадающим меню "Вид" -->
     <div class="menu-bar">
       <span><u>Ф</u>айл</span>
       <span><u>П</u>равка</span>
-      <span><u>В</u>ид</span>
+      <span class="menu-item">
+        <span><u>В</u>ид</span>
+        <div class="dropdown-content">
+          <span onclick="setTheme('classic')">Классическая</span>
+          <span onclick="setTheme('dark')">Тёмная</span>
+          <span onclick="setTheme('high-contrast')">Высокая контрастность</span>
+        </div>
+      </span>
       <span><u>С</u>правка</span>
     </div>
 
@@ -638,8 +826,9 @@
         <!-- Tabs -->
         <div class="tab-list">
           <button class="tab-btn active" data-tab="radio" onclick="switchTab('radio', this)">📻 Радиолюбитель</button>
-          <button class="tab-btn" data-tab="security" onclick="switchTab('security', this)">🛡️ Информ. безопасность</button>
-          <button class="tab-btn" data-tab="esport" onclick="switchTab('esport', this)">🎮 Киберспорт (CS2)</button>
+          <button class="tab-btn" data-tab="security" onclick="switchTab('security', this)">🛡️ Инфобез</button>
+          <button class="tab-btn" data-tab="esport" onclick="switchTab('esport', this)">🎮 Киберспорт</button>
+          <button class="tab-btn" data-tab="contacts" onclick="switchTab('contacts', this)">📬 Контакты</button>
         </div>
 
         <!-- Tab Content -->
@@ -688,9 +877,10 @@
             </div>
 
             <div class="btn-row">
-              <button class="win95-btn" onclick="alert('📻 QRZ.com: R3HOIZ\nСвяжитесь через логbook!')">📡 Мой позывной</button>
-              <button class="win95-btn" onclick="alert('📂 Проекты на GitHub:\n→ ft8-decoder\n→ arduino-trx')">💾 Мои проекты</button>
-              <button class="win95-btn" onclick="alert('📋 Лог QSO доступен по запросу.\n73!')">📋 QSO Log</button>
+              <button class="win95-btn" onclick="alert('📻 QRZ.com: R3HOIZ\nСвяжитесь через логbook!')" title="Показать позывной">📡 Мой позывной</button>
+              <button class="win95-btn" onclick="alert('📂 Проекты на GitHub:\n→ ft8-decoder\n→ arduino-trx')" title="Открыть проекты">💾 Мои проекты</button>
+              <button class="win95-btn" onclick="alert('📋 Лог QSO доступен по запросу.\n73!')" title="Лог QSO">📋 QSO Log</button>
+              <button class="win95-btn" onclick="window.print()" title="Сохранить как PDF">🖨️ Скачать резюме (PDF)</button>
             </div>
           </div>
 
@@ -740,9 +930,10 @@
             </div>
 
             <div class="btn-row">
-              <button class="win95-btn" onclick="alert('🔗 GitHub: github.com/hoiz\n→ port-scanner\n→ ctf-tools\n→ cve-reports')">💾 GitHub</button>
-              <button class="win95-btn" onclick="alert('🏅 Сертификаты:\n→ eJPT (2023)\n→ CompTIA Security+ (2022)')">📜 Сертификаты</button>
-              <button class="win95-btn" onclick="alert('📝 Write-up\'ы CTF-задач:\n→ RuCTF 2024\n→ HackTheBox\n→ PicoCTF')">📝 Write-ups</button>
+              <button class="win95-btn" onclick="window.open('https://github.com/hoiz1668','_blank')" title="Открыть GitHub">💾 GitHub</button>
+              <button class="win95-btn" onclick="alert('🏅 Сертификаты:\n→ eJPT (2023)\n→ CompTIA Security+ (2022)')" title="Показать сертификаты">📜 Сертификаты</button>
+              <button class="win95-btn" onclick="alert('📝 Write-up\'ы CTF-задач:\n→ RuCTF 2024\n→ HackTheBox\n→ PicoCTF')" title="Показать write-ups">📝 Write-ups</button>
+              <button class="win95-btn" onclick="window.print()" title="Сохранить как PDF">🖨️ Скачать резюме (PDF)</button>
             </div>
           </div>
 
@@ -790,9 +981,47 @@
             </div>
 
             <div class="btn-row">
-              <button class="win95-btn" onclick="alert('🎮 Faceit: hoiz_cs\nУровень: 10 | ELO: 2400\nK/D: 1.3 | HS%: 54')">📊 Моя статистика</button>
-              <button class="win95-btn" onclick="alert('🔗 Steam: steamcommunity.com/id/hoiz\nДобавляйтесь в друзья!')">🎯 Steam профиль</button>
-              <button class="win95-btn" onclick="alert('📹 Лучшие клатчи и хайлайты:\n→ Ace on Mirage (1v5)\n→ Clutch on Inferno (1v3)\n→ AWP montage 2025')">📹 Хайлайты</button>
+              <button class="win95-btn" onclick="alert('🎮 Faceit: hoiz_cs\nУровень: 10 | ELO: 2400\nK/D: 1.3 | HS%: 54')" title="Показать статистику">📊 Моя статистика</button>
+              <button class="win95-btn" onclick="window.open('https://steamcommunity.com/id/hoiz','_blank')" title="Открыть Steam">🎯 Steam профиль</button>
+              <button class="win95-btn" onclick="alert('📹 Лучшие клатчи и хайлайты:\n→ Ace on Mirage (1v5)\n→ Clutch on Inferno (1v3)\n→ AWP montage 2025')" title="Показать хайлайты">📹 Хайлайты</button>
+              <button class="win95-btn" onclick="window.print()" title="Сохранить как PDF">🖨️ Скачать резюме (PDF)</button>
+            </div>
+          </div>
+
+          <!-- TAB 4: Контакты -->
+          <div class="tab-panel" id="tab-contacts">
+            <div class="section-header">
+              <span class="sec-icon">📬</span>
+              <h2>Контакты и обратная связь</h2>
+            </div>
+
+            <div class="description">
+              Свяжитесь со мной любым удобным способом. Также вы можете оставить сообщение через форму ниже — я отвечу в ближайшее время.
+            </div>
+
+            <div class="contact-form">
+              <div class="form-group">
+                <label for="name">Ваше имя</label>
+                <input type="text" id="name" placeholder="Например, Алексей">
+              </div>
+              <div class="form-group">
+                <label for="email">Email для ответа</label>
+                <input type="email" id="email" placeholder="alex@example.com">
+              </div>
+              <div class="form-group">
+                <label for="msg">Сообщение</label>
+                <textarea id="msg" placeholder="Чем могу помочь?"></textarea>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="win95-btn" onclick="sendForm()" title="Отправить сообщение">📨 Отправить</button>
+                <button class="win95-btn" onclick="clearForm()" title="Очистить поля">🗑️ Очистить</button>
+              </div>
+            </div>
+
+            <div class="btn-row" style="margin-top:12px;">
+              <button class="win95-btn" onclick="window.open('https://t.me/afkhoiz1668','_blank')" title="Telegram">📡 Telegram</button>
+              <button class="win95-btn" onclick="window.open('https://github.com/hoiz1668','_blank')" title="GitHub">💾 GitHub</button>
+              <button class="win95-btn" onclick="location.href='mailto:afkhoiz1668@gmail.com'" title="Написать email">✉️ Email</button>
             </div>
           </div>
 
@@ -803,13 +1032,13 @@
     <!-- Status Bar -->
     <div class="status-bar">
       <div class="status-bar-field">
-        📡 <a href="#" onclick="alert('Telegram: @hoiz'); return false;">Telegram: @afkhoiz1668</a>
+        📡 <a href="https://t.me/afkhoiz1668" target="_blank">Telegram: @afkhoiz1668</a>
       </div>
       <div class="status-bar-field">
-        💾 <a href="#" onclick="alert('GitHub: github.com/hoiz'); return false;">GitHub: https://github.com/hoiz1668</a>
+        💾 <a href="https://github.com/hoiz1668" target="_blank">GitHub: hoiz1668</a>
       </div>
       <div class="status-bar-field">
-        ✉️ <a href="#" onclick="alert('Email: hoiz@example.net'); return false;">Email: afkhoiz1668@gmail.com</a>
+        ✉️ <a href="mailto:afkhoiz1668@gmail.com">Email: afkhoiz1668@gmail.com</a>
       </div>
       <div class="status-bar-field" style="flex: 0.5; justify-content: center;">
         🟢 Online
@@ -817,9 +1046,10 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Footer со счётчиком -->
   <div class="footer">
-    © 2026 hoiz | 
+    © 2026 hoiz | Сделано в стиле Windows 95 — ностальгия по добрым временам<br>
+    <span id="visitCounter">Посещений: 0</span>
   </div>
 
   <!-- Taskbar -->
@@ -839,23 +1069,136 @@
   </div>
 
   <script>
-    // Tab switching
+    // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
     function switchTab(tabName, btn) {
-      // Hide all panels
-      document.querySelectorAll('.tab-panel').forEach(function(panel) {
-        panel.classList.remove('active');
-      });
-      // Deactivate all tabs
-      document.querySelectorAll('.tab-btn').forEach(function(tab) {
-        tab.classList.remove('active');
-      });
-      // Show selected panel
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
-      // Activate selected tab
       btn.classList.add('active');
+      playClick(); // звук
     }
 
-    // Clock
+    function switchTabByDesktop(tabName) {
+      var btn = document.querySelector('.tab-btn[data-tab="' + tabName + '"]');
+      if (btn) switchTab(tabName, btn);
+    }
+
+    // ===== ФОРМА =====
+    function sendForm() {
+      var name = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var msg = document.getElementById('msg').value.trim();
+      if (!name || !email || !msg) {
+        alert('Пожалуйста, заполните все поля.');
+        return;
+      }
+      alert('📨 Сообщение отправлено!\n\nИмя: ' + name + '\nEmail: ' + email + '\nСообщение: ' + msg);
+      playClick();
+      // Можно добавить очистку после отправки
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('msg').value = '';
+      playClick();
+    }
+
+    // ===== ПЕРЕТАСКИВАНИЕ ОКНА =====
+    var isDragging = false;
+    var offsetX, offsetY;
+    var windowEl = document.getElementById('mainWindow');
+
+    document.getElementById('titleBar').addEventListener('mousedown', function(e) {
+      isDragging = true;
+      var rect = windowEl.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      windowEl.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      var x = e.clientX - offsetX;
+      var y = e.clientY - offsetY;
+      // Ограничиваем, чтобы окно не уходило за экран
+      var winWidth = windowEl.offsetWidth;
+      var winHeight = windowEl.offsetHeight;
+      var maxX = window.innerWidth - winWidth - 10;
+      var maxY = window.innerHeight - winHeight - 40; // оставляем место для таскбара
+      x = Math.max(10, Math.min(maxX, x));
+      y = Math.max(10, Math.min(maxY, y));
+      windowEl.style.position = 'fixed';
+      windowEl.style.left = x + 'px';
+      windowEl.style.top = y + 'px';
+      windowEl.style.margin = '0';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (isDragging) {
+        isDragging = false;
+        windowEl.style.cursor = '';
+      }
+    });
+
+    // Для touch-устройств
+    document.getElementById('titleBar').addEventListener('touchstart', function(e) {
+      var touch = e.touches[0];
+      isDragging = true;
+      var rect = windowEl.getBoundingClientRect();
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
+      windowEl.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      var touch = e.touches[0];
+      var x = touch.clientX - offsetX;
+      var y = touch.clientY - offsetY;
+      var winWidth = windowEl.offsetWidth;
+      var winHeight = windowEl.offsetHeight;
+      var maxX = window.innerWidth - winWidth - 10;
+      var maxY = window.innerHeight - winHeight - 40;
+      x = Math.max(10, Math.min(maxX, x));
+      y = Math.max(10, Math.min(maxY, y));
+      windowEl.style.position = 'fixed';
+      windowEl.style.left = x + 'px';
+      windowEl.style.top = y + 'px';
+      windowEl.style.margin = '0';
+    });
+
+    document.addEventListener('touchend', function() {
+      isDragging = false;
+      windowEl.style.cursor = '';
+    });
+
+    // ===== СМЕНА ТЕМЫ =====
+    function setTheme(theme) {
+      document.body.className = ''; // сброс
+      if (theme === 'dark') document.body.classList.add('dark');
+      if (theme === 'high-contrast') document.body.classList.add('high-contrast');
+      localStorage.setItem('theme', theme);
+      playClick();
+    }
+
+    // Восстановить тему при загрузке
+    (function loadTheme() {
+      var saved = localStorage.getItem('theme');
+      if (saved) setTheme(saved);
+    })();
+
+    // ===== СЧЁТЧИК ПОСЕЩЕНИЙ =====
+    (function updateCounter() {
+      var count = localStorage.getItem('visitCount');
+      if (count === null) count = 0;
+      count = parseInt(count) + 1;
+      localStorage.setItem('visitCount', count);
+      document.getElementById('visitCounter').textContent = 'Посещений: ' + count;
+    })();
+
+    // ===== ЧАСЫ =====
     function updateClock() {
       var now = new Date();
       var h = now.getHours().toString().padStart(2, '0');
@@ -864,8 +1207,24 @@
     }
     updateClock();
     setInterval(updateClock, 10000);
+
+    // ===== ЗВУК НАЖАТИЯ (опционально) =====
+    function playClick() {
+      try {
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator = audioCtx.createOscillator();
+        var gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.frequency.value = 800;
+        oscillator.type = 'square';
+        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.05);
+      } catch (e) { /* если звук не поддерживается — тихо */ }
+    }
   </script>
 
 </body>
 </html>
-
